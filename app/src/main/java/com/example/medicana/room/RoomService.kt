@@ -1,4 +1,4 @@
-package com.example.medicana.db
+package com.example.medicana.room
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,6 +8,6 @@ import androidx.room.Room
 object RoomService {
     lateinit var context: Context
     val appDatabase: AppDatabase by lazy {
-        Room.databaseBuilder(context, AppDatabase::class.java, "medicana").allowMainThreadQueries().build()
+        Room.databaseBuilder(context, AppDatabase::class.java, "medicana_patient").allowMainThreadQueries().build()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.medicana.db
+package com.example.medicana.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

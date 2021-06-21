@@ -3,13 +3,12 @@ package com.example.medicana.service
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import androidx.work.impl.utils.futures.SettableFuture
 import com.example.medicana.RES_SUCCESS
 import com.example.medicana.SHARED_PREFS
-import com.example.medicana.db.RoomService
+import com.example.medicana.room.RoomService
 import com.example.medicana.retrofit.RetrofitService
 import com.google.common.util.concurrent.ListenableFuture
 import retrofit2.Call

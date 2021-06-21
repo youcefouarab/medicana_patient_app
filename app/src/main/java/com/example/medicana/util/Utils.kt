@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.medicana.R
-import com.example.medicana.db.RoomService
+import com.example.medicana.room.RoomService
 import com.example.medicana.entity.Advice
 import com.example.medicana.entity.Appointment
 import com.example.medicana.entity.Doctor
@@ -225,7 +225,7 @@ fun getQrCodeBitmap(qrCodeContent: String): Bitmap {
     return Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).also {
         for (x in 0 until size) {
             for (y in 0 until size) {
-                it.setPixel(x, y, if (bits[x, y]) Color.BLACK else Color.WHITE)
+                it.setPixel(x, y, if (bits[x, y]) Color.parseColor("#EC2323") else Color.WHITE)
             }
         }
     }

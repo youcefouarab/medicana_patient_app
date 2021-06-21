@@ -7,7 +7,7 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import androidx.work.impl.utils.futures.SettableFuture
 import com.example.medicana.RES_SUCCESS
-import com.example.medicana.db.RoomService
+import com.example.medicana.room.RoomService
 import com.example.medicana.entity.Advice
 import com.example.medicana.retrofit.RetrofitService
 import com.google.common.util.concurrent.ListenableFuture

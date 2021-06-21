@@ -21,7 +21,7 @@ import com.example.medicana.MainViewModel
 import com.example.medicana.R
 import com.example.medicana.RES_SUCCESS
 import com.example.medicana.SHARED_PREFS
-import com.example.medicana.db.RoomService
+import com.example.medicana.room.RoomService
 import com.example.medicana.entity.Appointment
 import com.example.medicana.retrofit.RetrofitService
 import com.example.medicana.util.checkFailure

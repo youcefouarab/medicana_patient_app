@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.ui.setupWithNavController
@@ -18,19 +16,14 @@ import androidx.work.*
 import com.bumptech.glide.Glide
 import com.example.medicana.MainViewModel
 import com.example.medicana.R
-import com.example.medicana.RES_SUCCESS
 import com.example.medicana.SHARED_PREFS
 import com.example.medicana.service.AdviceAddSyncService
 import com.example.medicana.adapter.AdviceAdapter
-import com.example.medicana.db.RoomService
+import com.example.medicana.room.RoomService
 import com.example.medicana.entity.Advice
-import com.example.medicana.retrofit.RetrofitService
 import com.example.medicana.util.navController
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_advice.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class AdviceFragment : Fragment() {
 
@@ -111,10 +104,10 @@ class AdviceFragment : Fragment() {
         val constraints = Constraints.Builder().
         setRequiredNetworkType(NetworkType.CONNECTED).build()
         val req= OneTimeWorkRequest.Builder(AdviceAddSyncService::class.java).
-        setConstraints(constraints).addTag("id1").
+        setConstraints(constraints).addTag("patient_advice_add_constraints").
         build()
         val workManager = WorkManager.getInstance(act)
-        workManager.enqueueUniqueWork("work", ExistingWorkPolicy.REPLACE,req)
+        workManager.enqueueUniqueWork("patient_advice_add_work", ExistingWorkPolicy.REPLACE,req)
 
     }
 }

@@ -23,7 +23,7 @@ interface DoctorDao {
     @Query("SELECT count(*) FROM doctor WHERE doctor_id = :doctor_id")
     fun checkDoctorExists(doctor_id: Long?): Int
 
-    @Query("DELETE FROM appointment")
+    @Query("DELETE FROM doctor")
     fun deleteAll()
 
 }

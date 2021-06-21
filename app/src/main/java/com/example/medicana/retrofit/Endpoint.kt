@@ -51,7 +51,7 @@ interface Endpoint {
         @Path("doctor_id") doctor_id: Long?
     ): Call<String>
 
-    @GET("all_advice/{patient_id}")
+    @GET("all_patient_advice/{patient_id}")
     fun getAllAdvice(
             @Path("patient_id") patient_id: Long?
     ): Call<List<Advice>>
