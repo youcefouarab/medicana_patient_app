@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/bg_rounded_white"
+    android:elevation="@dimen/elevation"
+    tools:ignore="UnusedAttribute">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/doctors_photo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginVertical="16dp"
+        android:background="@color/white"
+        android:padding="@dimen/edge_stoke_width"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:shapeAppearanceOverlay="@style/mediumRoundEdge"
+        app:strokeColor="@color/medicana_light"
+        app:strokeWidth="@dimen/edge_stoke_width"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/doctors_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/doctors_photo"
+        app:layout_constraintTop_toTopOf="@+id/doctors_photo"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/doctors_specialty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/medicana_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/doctors_photo"
+        app:layout_constraintTop_toBottomOf="@+id/doctors_name"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/doctors_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="5dp"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/medicana_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/doctors_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/doctors_photo"
+        app:layout_constraintTop_toBottomOf="@+id/doctors_specialty"
+        app:drawableLeftCompat="@drawable/ic_map_pin_small"
+        app:drawableStartCompat="@drawable/ic_map_pin_small"
+        tools:ignore="HardcodedText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

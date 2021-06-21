@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.AppointmentFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.AppointmentFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/new_appointment_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginVertical="48dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_appointment_toolbar">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="48dp"
+                android:text="@string/appointment_ready"
+                android:textColor="@color/black"
+                android:textSize="@dimen/medium_title"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/new_appointment_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_rounded_edge"
+                android:drawablePadding="15dp"
+                android:gravity="center|left"
+                android:paddingHorizontal="15dp"
+                android:singleLine="true"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/ic_user"
+                app:drawableStartCompat="@drawable/ic_user"
+                tools:ignore="RtlHardcoded" />
+
+
+            <TextView
+                android:id="@+id/new_appointment_date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_rounded_edge"
+                android:drawablePadding="15dp"
+                android:gravity="center|left"
+                android:paddingHorizontal="15dp"
+                android:singleLine="true"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/ic_date"
+                app:drawableStartCompat="@drawable/ic_date"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/new_appointment_time"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_rounded_edge"
+                android:drawablePadding="15dp"
+                android:gravity="center|left"
+                android:paddingHorizontal="15dp"
+                android:singleLine="true"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/ic_time"
+                app:drawableStartCompat="@drawable/ic_time"
+                tools:ignore="RtlHardcoded" />
+
+
+            <TextView
+                android:id="@+id/new_appointment_address"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="48dp"
+                android:background="@drawable/bg_rounded_edge"
+                android:drawablePadding="15dp"
+                android:gravity="center|left"
+                android:paddingHorizontal="15dp"
+                android:singleLine="true"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/ic_map_pin"
+                app:drawableStartCompat="@drawable/ic_map_pin"
+                tools:ignore="RtlHardcoded" />
+
+            <Button
+                android:id="@+id/new_appointment_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_rounded_edge"
+                android:backgroundTint="@color/medicana"
+                android:text="@string/confirm"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
