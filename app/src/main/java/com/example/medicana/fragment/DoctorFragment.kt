@@ -10,8 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -23,13 +21,13 @@ import com.example.medicana.util.*
 import com.example.medicana.entity.Appointment
 import com.example.medicana.retrofit.RetrofitService
 import com.example.medicana.util.CalendarUtils
-import com.example.medicana.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_doctor.*
 import java.time.LocalDate
 
 import com.example.medicana.util.CalendarUtils.daysInWeekArray
 import com.example.medicana.util.CalendarUtils.monthYearFromDate
+import com.example.medicana.viewmodel.VM.vm
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,9 +58,7 @@ class DoctorFragment : Fragment(), OnItemListener {
         act.nav_bottom?.visibility = View.GONE
         doctor_toolbar?.setupWithNavController(navController(act))
         doctor_toolbar?.title = ""
-        val doctor =
-            ViewModelProvider(context as ViewModelStoreOwner).get(MainViewModel::class.java)
-            .doctor
+        val doctor = vm.doctor
         //Glide.with(context).load(BASE_URL + data[position].photo).into(holder.doctors_photo)
         if (doctor?.gender == "male") {
             Glide.with(act).load(R.drawable.default_doctor_male).into(doctor_photo!!)
@@ -111,9 +107,7 @@ class DoctorFragment : Fragment(), OnItemListener {
         calendar_recyclerview?.adapter = CalendarAdapter(act, days, this)
 
         times_recyclerview?.layoutManager = GridLayoutManager(act, 3)
-        val doctor =
-            ViewModelProvider(context as ViewModelStoreOwner).get(MainViewModel::class.java)
-            .doctor
+        val doctor = vm.doctor
         val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
         var time = SimpleDateFormat("HH:mm").format(Date())
         if (selectedDateString > today) time = "00:00"

@@ -8,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.medicana.R
 import com.example.medicana.entity.Doctor
 import com.example.medicana.util.navController
-import com.example.medicana.MainViewModel
+import com.example.medicana.viewmodel.VM.vm
 
 
 class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.Adapter<DoctorViewHolder>() {
@@ -41,7 +39,7 @@ class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.
         else Glide.with(context).load(R.drawable.default_doctor_female).into(holder.doctorsPhoto)
 
         holder.itemView.setOnClickListener{
-            (ViewModelProvider(context as ViewModelStoreOwner).get(MainViewModel::class.java)).doctor = data[position]
+            vm.doctor = data[position]
             navController(context as Activity).navigate(R.id.action_doctorsFragment_to_doctorFragment)
         }
     }

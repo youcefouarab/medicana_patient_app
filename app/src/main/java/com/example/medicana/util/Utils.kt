@@ -7,23 +7,14 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.medicana.R
-import com.example.medicana.room.RoomService
-import com.example.medicana.entity.Advice
-import com.example.medicana.entity.Appointment
-import com.example.medicana.entity.Doctor
-import com.example.medicana.retrofit.RetrofitService
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.DateFormatSymbols
 import java.time.Instant
 import java.time.LocalDate
@@ -153,69 +144,6 @@ fun displayTimeFromUnix(date_time: Long): String {
 
 fun unixTimestamp(): Long {
     return System.currentTimeMillis() / 1000L
-}
-
-
-fun reloadRoomDatabase(patient_id: Long, ctx: Context) {
-    val call1 = RetrofitService.endpoint.getMyAppointments(patient_id)
-    call1.enqueue(object : Callback<List<Appointment>> {
-        override fun onResponse(
-            call: Call<List<Appointment>>?,
-            response: Response<List<Appointment>>?
-        ) {
-            if (response?.isSuccessful!!) {
-                RoomService.appDatabase.getAppointmentDao().addMyAppointments(response.body()!!)
-            } else {
-                checkFailure(ctx)
-            }
-        }
-
-        override fun onFailure(call: Call<List<Appointment>>?, t: Throwable?) {
-            Log.e("Retrofit error", t.toString())
-            checkFailure(ctx)
-        }
-    })
-
-    val call2 = RetrofitService.endpoint.getMyDoctors(patient_id)
-    call2.enqueue(object : Callback<List<Doctor>> {
-        override fun onResponse(
-            call: Call<List<Doctor>>?,
-            response: Response<List<Doctor>>?
-        ) {
-            if (response?.isSuccessful!!) {
-                RoomService.appDatabase.getDoctorDao().addMyDoctors(response.body()!!)
-
-            } else {
-                checkFailure(ctx)
-            }
-        }
-
-        override fun onFailure(call: Call<List<Doctor>>?, t: Throwable?) {
-            Log.e("Retrofit error", t.toString())
-            checkFailure(ctx)
-        }
-    })
-
-    val call3 = RetrofitService.endpoint.getAllAdvice(patient_id)
-    call3.enqueue(object : Callback<List<Advice>> {
-        override fun onResponse(
-            call: Call<List<Advice>>?,
-            response: Response<List<Advice>>?
-        ) {
-            if (response?.isSuccessful!!) {
-                RoomService.appDatabase.getAdviceDao().addMyAdvice(response.body()!!)
-            } else {
-                checkFailure(ctx)
-            }
-        }
-
-        override fun onFailure(call: Call<List<Advice>>?, t: Throwable?) {
-            Log.e("Retrofit error", t.toString())
-            checkFailure(ctx)
-        }
-    })
-
-
 }
 
 fun getQrCodeBitmap(qrCodeContent: String): Bitmap {

@@ -7,15 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.medicana.R
 import com.example.medicana.adapter.DoctorAdapter
 import com.example.medicana.util.*
 import com.example.medicana.entity.Doctor
 import com.example.medicana.retrofit.RetrofitService
-import com.example.medicana.MainViewModel
+import com.example.medicana.viewmodel.VM.vm
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_doctors.*
 import retrofit2.Call
@@ -43,9 +41,7 @@ class DoctorsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         act.nav_bottom?.visibility = View.VISIBLE
         doctors_list?.layoutManager = LinearLayoutManager(act)
-        val data =
-            ViewModelProvider(context as ViewModelStoreOwner).get(MainViewModel::class.java)
-            .doctors
+        val data = vm.doctors
         if (data != null) {
             doctors_list?.adapter = DoctorAdapter(act, data)
         } else {
@@ -58,8 +54,7 @@ class DoctorsFragment : Fragment() {
                     if (response?.isSuccessful!!) {
                         val doctors = response.body()
                         try {
-                            ViewModelProvider(context as ViewModelStoreOwner).get(MainViewModel::class.java)
-                                .doctors = doctors
+                            vm.doctors = doctors
                         } catch (e: Exception) {
                             Log.e("DoctorViewModel error", e.toString())
                         }

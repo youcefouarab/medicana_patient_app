@@ -8,17 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
 import com.bumptech.glide.Glide
 import com.example.medicana.R
 import com.example.medicana.entity.Doctor
 import com.example.medicana.util.navController
-import com.example.medicana.MainViewModel
 import com.example.medicana.room.RoomService
 import com.example.medicana.service.AdviceUpdateSyncService
+import com.example.medicana.viewmodel.VM.vm
 
 
 class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.Adapter<MyDoctorViewHolder>() {
@@ -49,7 +47,7 @@ class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerVie
         }
 
         holder.itemView.setOnClickListener{
-            (ViewModelProvider(context as ViewModelStoreOwner).get(MainViewModel::class.java)).doctor = data[position]
+            vm.doctor = data[position]
             navController(context as Activity).navigate(R.id.action_advicesFragment_to_adviceFragment)
             if (unread > 0) {
                 RoomService.appDatabase.getAdviceDao().updateSeenAdvice(data[position].doctor_id)
@@ -62,8 +60,7 @@ class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerVie
         val constraints = Constraints.Builder().
         setRequiredNetworkType(NetworkType.CONNECTED).build()
         val req= OneTimeWorkRequest.Builder(AdviceUpdateSyncService::class.java).
-        setConstraints(constraints).addTag("patient_advice_update_constraints").
-        build()
+        setConstraints(constraints).addTag("patient_advice_update_constraints").build()
         val workManager = WorkManager.getInstance(context)
         workManager.enqueueUniqueWork("patient_advice_update_work", ExistingWorkPolicy.REPLACE,req)
 

@@ -9,15 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.edit
 import androidx.navigation.ui.setupWithNavController
 import com.example.medicana.R
-import com.example.medicana.SHARED_PREFS
+import com.example.medicana.entity.Advice
+import com.example.medicana.entity.Appointment
+import com.example.medicana.entity.Doctor
 import com.example.medicana.entity.Patient
+import com.example.medicana.prefs.SharedPrefs
 import com.example.medicana.retrofit.RetrofitService
+import com.example.medicana.room.RoomService
 import com.example.medicana.util.checkFailure
 import com.example.medicana.util.navController
-import com.example.medicana.util.reloadRoomDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_auth.*
 import retrofit2.Call
@@ -61,19 +63,16 @@ class AuthFragment : Fragment() {
                     if (response?.isSuccessful!!) {
                         val patient = response.body()
                         if (patient?.patient_id != null) {
-                            val pref = act.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-                            pref.edit {
-                                putBoolean("connected", true)
-                                putLong("patient_id", patient.patient_id)
-                                putLong("user_id", patient.user_id!!)
-                                putString("phone_number", patient.phone_number)
-                                putString("first_name", patient.first_name)
-                                putString("last_name", patient.last_name)
-                                putString("address", patient.address)
-                                putString("gender", patient.gender)
-                                putString("photo", patient.photo)
-                            }
-                            reloadRoomDatabase(patient.patient_id, act)
+                            val prefs = SharedPrefs(act)
+                            prefs.connected = true
+                            prefs.patientId = patient.patient_id
+                            prefs.phoneNumber = patient.phone_number
+                            prefs.firstName = patient.first_name
+                            prefs.lastName = patient.last_name
+                            prefs.address = patient.address
+                            prefs.gender = patient.gender
+                            prefs.photo = patient.photo
+                            reloadRoomDatabase(patient.patient_id)
                             Toast.makeText(act, R.string.welcome, Toast.LENGTH_LONG).show()
                             navController(act).navigateUp()
                         } else {
@@ -90,6 +89,80 @@ class AuthFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun reloadRoomDatabase(patient_id: Long) {
+        val call1 = RetrofitService.endpoint.getMyAppointments(patient_id)
+        call1.enqueue(object : Callback<List<Appointment>> {
+            override fun onResponse(
+                    call: Call<List<Appointment>>?,
+                    response: Response<List<Appointment>>?
+            ) {
+                if (response?.isSuccessful!!) {
+                    val appointments = response.body()
+                    val call2 = RetrofitService.endpoint.getMyDoctors(patient_id)
+                    call2.enqueue(object : Callback<List<Doctor>> {
+                        override fun onResponse(
+                                call: Call<List<Doctor>>?,
+                                response: Response<List<Doctor>>?
+                        ) {
+                            if (response?.isSuccessful!!) {
+                                val doctors = response.body()
+                                val call3 = RetrofitService.endpoint.getAllAdvice(patient_id)
+                                call3.enqueue(object : Callback<List<Advice>> {
+                                    override fun onResponse(
+                                            call: Call<List<Advice>>?,
+                                            response: Response<List<Advice>>?
+                                    ) {
+                                        if (response?.isSuccessful!!) {
+                                            try {
+                                                RoomService.appDatabase.getAppointmentDao()
+                                                        .addMyAppointments(appointments!!)
+                                                RoomService.appDatabase.getDoctorDao()
+                                                        .addMyDoctors(doctors!!)
+                                                RoomService.appDatabase.getAdviceDao()
+                                                        .addMyAdvice(response.body()!!)
+                                            } catch (e: Exception) {
+                                                Toast.makeText(
+                                                        act,
+                                                        "Your information wasn't completely restored!",
+                                                        Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                        } else {
+                                            checkFailure(act)
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<List<Advice>>?, t: Throwable?) {
+                                        Log.e("Retrofit error", t.toString())
+                                        checkFailure(act)
+                                    }
+                                })
+
+
+                            } else {
+                                checkFailure(act)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Doctor>>?, t: Throwable?) {
+                            Log.e("Retrofit error", t.toString())
+                            checkFailure(act)
+                        }
+                    })
+
+                } else {
+                    checkFailure(act)
+                }
+            }
+
+            override fun onFailure(call: Call<List<Appointment>>?, t: Throwable?) {
+                Log.e("Retrofit error", t.toString())
+                checkFailure(act)
+            }
+        })
+
     }
 
 }

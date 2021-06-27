@@ -7,15 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.example.medicana.MainViewModel
 import com.example.medicana.R
 import com.example.medicana.entity.MyAppointment
 import com.example.medicana.fragment.AppointmentsFragmentDirections
 import com.example.medicana.util.displayDate
 import com.example.medicana.util.navController
+import com.example.medicana.viewmodel.VM.vm
 
 
 class AppointmentAdapter(val context: Context, val data: List<MyAppointment>): RecyclerView.Adapter<AppointmentViewHolder>() {
@@ -35,7 +33,7 @@ class AppointmentAdapter(val context: Context, val data: List<MyAppointment>): R
         holder.appointmentsTime.text = data[position].time.toString()
 
         holder.itemView.setOnClickListener{
-            (ViewModelProvider(context as ViewModelStoreOwner).get(MainViewModel::class.java)).myAppointment = data[position]
+            vm.myAppointment = data[position]
             val action = AppointmentsFragmentDirections.actionAppointmentsFragmentToAppointmentFragment(false)
             navController(context as Activity).navigate(action)
         }

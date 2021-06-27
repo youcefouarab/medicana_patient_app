@@ -34,7 +34,7 @@
         tools:srcCompat="@tools:sample/avatars"/>
 
     <TextView
-        android:id="@+id/profile_name"
+        android:id="@+id/appointment_doctor_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -43,13 +43,13 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/profile_phone"
-        app:layout_constraintStart_toStartOf="@+id/profile_phone"
-        app:layout_constraintTop_toBottomOf="@+id/profile_phone"
+        app:layout_constraintEnd_toEndOf="@+id/appointment_doctor_phone"
+        app:layout_constraintStart_toStartOf="@+id/appointment_doctor_phone"
+        app:layout_constraintTop_toBottomOf="@+id/appointment_doctor_phone"
         tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/profile_phone"
+        android:id="@+id/appointment_doctor_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -70,7 +70,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_name"
+        app:layout_constraintTop_toBottomOf="@+id/appointment_doctor_name"
         android:baselineAligned="false">
 
         <LinearLayout
