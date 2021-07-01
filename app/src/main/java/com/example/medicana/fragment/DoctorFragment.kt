@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.medicana.R
 import com.example.medicana.adapter.CalendarAdapter
-import com.example.medicana.adapter.OnItemListener
 import com.example.medicana.adapter.TimeAdapter
 import com.example.medicana.util.*
 import com.example.medicana.entity.Appointment
@@ -35,7 +34,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class DoctorFragment : Fragment(), OnItemListener {
+class DoctorFragment : Fragment(), CalendarAdapter.OnItemListener {
 
     private lateinit var act: Activity
 

@@ -13,7 +13,7 @@ import com.example.medicana.util.displayDateFromUnix
 import com.example.medicana.util.displayTimeFromUnix
 
 
-class AdviceAdapter(val context: Context, val data: List<Advice>): RecyclerView.Adapter<AdviceViewHolder>() {
+class AdviceAdapter(val context: Context, val data: List<Advice>): RecyclerView.Adapter<AdviceAdapter.AdviceViewHolder>() {
 
     private val message = 0
     private val reply = 1
@@ -49,9 +49,9 @@ class AdviceAdapter(val context: Context, val data: List<Advice>): RecyclerView.
             holder.adviceMessage.text = data[position].reply
         }
     }
-}
 
-class AdviceViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    val adviceDateTime = view.findViewById(R.id.advice_datetime) as TextView
-    val adviceMessage = view.findViewById(R.id.advice_message) as TextView
+    class AdviceViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val adviceDateTime = view.findViewById(R.id.advice_datetime) as TextView
+        val adviceMessage = view.findViewById(R.id.advice_message) as TextView
+    }
 }

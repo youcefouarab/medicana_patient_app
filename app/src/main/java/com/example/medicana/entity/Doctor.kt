@@ -8,15 +8,15 @@ import java.io.Serializable
 data class Doctor (
     @PrimaryKey
     val doctor_id: Long? = null,
-    val user_id: Long?,
     val phone_number: String?,
     val first_name: String?,
     val last_name: String?,
-    val address: String?,
     val gender: String?,
     val photo: String?,
     val specialty: String?,
+    val address: String?,
     val longitude: Double?,
-    val latitude: Double?
+    val latitude: Double?,
+    val token: String?
 
 ): Serializable

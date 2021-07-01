@@ -1,7 +1,6 @@
 package com.example.medicana.fragment
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,6 +19,8 @@ import com.example.medicana.retrofit.RetrofitService
 import com.example.medicana.room.RoomService
 import com.example.medicana.util.checkFailure
 import com.example.medicana.util.navController
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_auth.*
 import retrofit2.Call
@@ -69,9 +70,7 @@ class AuthFragment : Fragment() {
                             prefs.phoneNumber = patient.phone_number
                             prefs.firstName = patient.first_name
                             prefs.lastName = patient.last_name
-                            prefs.address = patient.address
-                            prefs.gender = patient.gender
-                            prefs.photo = patient.photo
+                            registerToken(patient.patient_id)
                             reloadRoomDatabase(patient.patient_id)
                             Toast.makeText(act, R.string.welcome, Toast.LENGTH_LONG).show()
                             navController(act).navigateUp()
@@ -160,6 +159,40 @@ class AuthFragment : Fragment() {
             override fun onFailure(call: Call<List<Appointment>>?, t: Throwable?) {
                 Log.e("Retrofit error", t.toString())
                 checkFailure(act)
+            }
+        })
+
+    }
+
+    private fun registerToken(patient_id: Long) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("firebase", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            } else {
+                val call = RetrofitService.endpoint.registerToken(
+                    user_id = patient_id,
+                    token = task.result
+                )
+                call.enqueue(object : Callback<Long> {
+                    override fun onResponse(
+                        call: Call<Long>?,
+                        response: Response<Long>?
+                    ) {
+                        if (response?.isSuccessful!!) {
+                            val prefs = SharedPrefs(act)
+                            prefs.deviceId = response.body()!!
+                            prefs.token = task.result
+                        } else {
+                            checkFailure(act)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Long>?, t: Throwable?) {
+                        Log.e("Retrofit error", t.toString())
+                        checkFailure(act)
+                    }
+                })
             }
         })
 

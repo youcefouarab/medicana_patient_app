@@ -3,6 +3,7 @@ package com.example.medicana.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,9 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.medicana.R
 import com.example.medicana.prefs.SharedPrefs
+import com.example.medicana.retrofit.RetrofitService
 import com.example.medicana.room.RoomService
+import com.example.medicana.util.checkFailure
 import com.example.medicana.util.navController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,6 +22,9 @@ import kotlinx.android.synthetic.main.fragment_profile.dimmed_bg
 import kotlinx.android.synthetic.main.fragment_profile.profile_name
 import kotlinx.android.synthetic.main.fragment_profile.profile_phone
 import kotlinx.android.synthetic.main.layout_need_auth.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProfileFragment : Fragment() {
 
@@ -78,8 +84,29 @@ class ProfileFragment : Fragment() {
             RoomService.appDatabase.getAdviceDao().deleteAll()
             RoomService.appDatabase.getAppointmentDao().deleteAll()
             RoomService.appDatabase.getDoctorDao().deleteAll()
+            val call = RetrofitService.endpoint.unregisterToken(pref.deviceId)
+            call.enqueue(object : Callback<String> {
+                override fun onResponse(
+                    call: Call<String>?,
+                    response: Response<String>?
+                ) {
+                    if (!response?.isSuccessful!!) {
+                        checkFailure(act)
+                    }
+                }
+
+                override fun onFailure(call: Call<String>?, t: Throwable?) {
+                    Log.e("Retrofit error", t.toString())
+                    checkFailure(act)
+                }
+            })
+
             pref.connected = false
+            pref.token = ""
+            pref.deviceId = 0
+
             navController(act).navigate(R.id.action_profileFragment_to_nav_host)
+
         }
 
         need_auth_button?.setOnClickListener {

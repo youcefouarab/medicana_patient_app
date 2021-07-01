@@ -1,12 +1,18 @@
 package com.example.medicana
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.NavigationUI
 import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +57,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

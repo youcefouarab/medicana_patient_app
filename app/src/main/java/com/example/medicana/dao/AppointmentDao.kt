@@ -6,6 +6,7 @@ import com.example.medicana.entity.MyAppointment
 
 @Dao
 interface AppointmentDao {
+
     @Query("SELECT * FROM appointment NATURAL JOIN doctor")
     fun getMyAppointments(): List<MyAppointment>
 

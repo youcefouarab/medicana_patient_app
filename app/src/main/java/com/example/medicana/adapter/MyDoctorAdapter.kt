@@ -19,7 +19,7 @@ import com.example.medicana.service.AdviceUpdateSyncService
 import com.example.medicana.viewmodel.VM.vm
 
 
-class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.Adapter<MyDoctorViewHolder>() {
+class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.Adapter<MyDoctorAdapter.MyDoctorViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyDoctorViewHolder {
         return MyDoctorViewHolder(
@@ -65,11 +65,12 @@ class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerVie
         workManager.enqueueUniqueWork("patient_advice_update_work", ExistingWorkPolicy.REPLACE,req)
 
     }
+
+    class MyDoctorViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val doctorsPhoto = view.findViewById(R.id.my_doctor_photo) as ImageView
+        val doctorsName = view.findViewById(R.id.my_doctor_name) as TextView
+        val doctorsSpecialty = view.findViewById(R.id.my_doctor_specialty) as TextView
+        val unreadIndicator = view.findViewById(R.id.unread_indicator) as ImageView
+    }
 }
 
-class MyDoctorViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    val doctorsPhoto = view.findViewById(R.id.my_doctor_photo) as ImageView
-    val doctorsName = view.findViewById(R.id.my_doctor_name) as TextView
-    val doctorsSpecialty = view.findViewById(R.id.my_doctor_specialty) as TextView
-    val unreadIndicator = view.findViewById(R.id.unread_indicator) as ImageView
-}

@@ -16,7 +16,7 @@ import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM.vm
 
 
-class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.Adapter<DoctorViewHolder>() {
+class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.Adapter<DoctorAdapter.DoctorViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DoctorViewHolder {
         return DoctorViewHolder(
@@ -43,11 +43,13 @@ class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.
             navController(context as Activity).navigate(R.id.action_doctorsFragment_to_doctorFragment)
         }
     }
+
+    class DoctorViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val doctorsPhoto = view.findViewById(R.id.doctors_photo) as ImageView
+        val doctorsName = view.findViewById(R.id.doctors_name) as TextView
+        val doctorsSpecialty = view.findViewById(R.id.doctors_specialty) as TextView
+        val doctorsAddress = view.findViewById(R.id.doctors_address) as TextView
+    }
+
 }
 
-class DoctorViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    val doctorsPhoto = view.findViewById(R.id.doctors_photo) as ImageView
-    val doctorsName = view.findViewById(R.id.doctors_name) as TextView
-    val doctorsSpecialty = view.findViewById(R.id.doctors_specialty) as TextView
-    val doctorsAddress = view.findViewById(R.id.doctors_address) as TextView
-}

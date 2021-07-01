@@ -5,6 +5,7 @@ import com.example.medicana.entity.Doctor
 
 @Dao
 interface DoctorDao {
+
     @Query("SELECT * FROM doctor")
     fun getMyDoctors(): List<Doctor>
 

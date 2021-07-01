@@ -16,7 +16,7 @@ import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM.vm
 
 
-class AppointmentAdapter(val context: Context, val data: List<MyAppointment>): RecyclerView.Adapter<AppointmentViewHolder>() {
+class AppointmentAdapter(val context: Context, val data: List<MyAppointment>): RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppointmentViewHolder {
         return AppointmentViewHolder(
@@ -38,10 +38,10 @@ class AppointmentAdapter(val context: Context, val data: List<MyAppointment>): R
             navController(context as Activity).navigate(action)
         }
     }
-}
 
-class AppointmentViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    val appointmentsDoctorName = view.findViewById(R.id.appointments_doctor_name) as TextView
-    val appointmentsDate = view.findViewById(R.id.appointments_date) as TextView
-    val appointmentsTime = view.findViewById(R.id.appointments_time) as TextView
+    class AppointmentViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val appointmentsDoctorName = view.findViewById(R.id.appointments_doctor_name) as TextView
+        val appointmentsDate = view.findViewById(R.id.appointments_date) as TextView
+        val appointmentsTime = view.findViewById(R.id.appointments_time) as TextView
+    }
 }

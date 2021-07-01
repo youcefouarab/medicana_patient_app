@@ -16,7 +16,7 @@ class CalendarAdapter(
         private val days: java.util.ArrayList<LocalDate?>,
         private val onItemListener: OnItemListener
 
-): RecyclerView.Adapter<CalendarViewHolder>() {
+): RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -39,28 +39,28 @@ class CalendarAdapter(
 
     override fun getItemCount() = days.size
 
-}
-
-interface OnItemListener {
-    fun onItemClick(position: Int, date: LocalDate?)
-}
-
-class CalendarViewHolder(
-    itemView: View,
-    private val onItemListener: OnItemListener,
-    days: ArrayList<LocalDate?>
-): RecyclerView.ViewHolder(itemView), View.OnClickListener {
-
-    private val days: ArrayList<LocalDate?>
-    val parentView: View = itemView.findViewById(R.id.parentView)
-    val dayOfMonth: TextView = itemView.findViewById(R.id.cellDayText)
-
-    override fun onClick(view: View) {
-        onItemListener.onItemClick(adapterPosition, days[adapterPosition])
+    interface OnItemListener {
+        fun onItemClick(position: Int, date: LocalDate?)
     }
 
-    init {
-        itemView.setOnClickListener(this)
-        this.days = days
+    class CalendarViewHolder(
+            itemView: View,
+            private val onItemListener: OnItemListener,
+            days: ArrayList<LocalDate?>
+    ): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
+        private val days: ArrayList<LocalDate?>
+        val parentView: View = itemView.findViewById(R.id.parentView)
+        val dayOfMonth: TextView = itemView.findViewById(R.id.cellDayText)
+
+        override fun onClick(view: View) {
+            onItemListener.onItemClick(adapterPosition, days[adapterPosition])
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+            this.days = days
+        }
     }
+
 }

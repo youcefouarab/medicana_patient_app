@@ -14,7 +14,7 @@ import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM.vm
 
 
-class TimeAdapter(val context: Context, val data: List<Appointment>): RecyclerView.Adapter<TimeViewHolder>() {
+class TimeAdapter(val context: Context, val data: List<Appointment>): RecyclerView.Adapter<TimeAdapter.TimeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
         return TimeViewHolder(
                 LayoutInflater.from(context).inflate(R.layout.layout_time, parent, false)
@@ -31,8 +31,9 @@ class TimeAdapter(val context: Context, val data: List<Appointment>): RecyclerVi
             navController(context as Activity).navigate(action)
         }
     }
-}
 
-class TimeViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    val availableTime = view.findViewById(R.id.available_time) as TextView
+
+    class TimeViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val availableTime = view.findViewById(R.id.available_time) as TextView
+    }
 }

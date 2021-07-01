@@ -11,7 +11,6 @@ data class Appointment (
     val doctor_id: Long?,
     val patient_id: Long? = null,
     val date: String?,
-    val time: String?,
-    val done: Int? = 0
+    val time: String?
 
 ): Serializable

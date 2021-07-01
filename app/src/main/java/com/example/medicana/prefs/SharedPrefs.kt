@@ -13,9 +13,8 @@ class SharedPrefs(context: Context) {
         private const val KEY_PHONE_NUMBER = "phone_number"
         private const val KEY_FIRST_NAME = "first_name"
         private const val KEY_LAST_NAME = "last_name"
-        private const val KEY_ADDRESS = "address"
-        private const val KEY_GENDER = "gender"
-        private const val KEY_PHOTO = "photo"
+        private const val KEY_DEVICE_ID = "device_id"
+        private const val KEY_TOKEN = "token"
     }
 
     private val sharedPrefs: SharedPreferences =
@@ -41,16 +40,13 @@ class SharedPrefs(context: Context) {
         get() = sharedPrefs.getString(KEY_LAST_NAME, "") ?: ""
         set(value) = sharedPrefs.edit { putString(KEY_LAST_NAME, value) }
 
-    var address: String?
-        get() = sharedPrefs.getString(KEY_ADDRESS, "") ?: ""
-        set(value) = sharedPrefs.edit { putString(KEY_ADDRESS, value) }
+    var deviceId: Long
+        get() = sharedPrefs.getLong(KEY_DEVICE_ID, 0)
+        set(value) = sharedPrefs.edit { putLong(KEY_DEVICE_ID, value) }
 
-    var gender: String?
-        get() = sharedPrefs.getString(KEY_GENDER, "") ?: ""
-        set(value) = sharedPrefs.edit { putString(KEY_GENDER, value) }
+    var token: String?
+        get() = sharedPrefs.getString(KEY_TOKEN, "") ?: ""
+        set(value) = sharedPrefs.edit { putString(KEY_TOKEN, value) }
 
-    var photo: String?
-        get() = sharedPrefs.getString(KEY_PHOTO, "") ?: ""
-        set(value) = sharedPrefs.edit { putString(KEY_PHOTO, value) }
 
 }

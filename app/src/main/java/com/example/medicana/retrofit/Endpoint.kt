@@ -5,18 +5,30 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface Endpoint {
-    @GET("doctors")
-    fun getDoctors(): Call<List<Doctor>>
+
+    @GET("auth_patient/{phone_number}/{password}")
+    fun authPatient(
+        @Path("phone_number") phone_number: String?,
+        @Path("password") password: String?
+    ): Call<Patient>
+
+    @GET("patient_doctors/{patient_id}")
+    fun getMyDoctors(
+        @Path("patient_id") patient_id: Long?
+    ): Call<List<Doctor>>
 
     @GET("patient_appointments/{patient_id}")
     fun getMyAppointments(
         @Path("patient_id") patient_id: Long?
     ): Call<List<Appointment>>
 
-    @GET("patient_doctors/{patient_id}")
-    fun getMyDoctors(
+    @GET("all_patient_advice/{patient_id}")
+    fun getAllAdvice(
         @Path("patient_id") patient_id: Long?
-    ): Call<List<Doctor>>
+    ): Call<List<Advice>>
+
+    @GET("doctors")
+    fun getDoctors(): Call<List<Doctor>>
 
     @GET("availabilities/{doctor_id}/{date}/{time}")
     fun getAvailabilitiesForDoctorByDate(
@@ -24,12 +36,6 @@ interface Endpoint {
         @Path("date") date: String?,
         @Path("time") time: String?
     ): Call<List<Appointment>>
-
-    @GET("auth_patient/{phone_number}/{password}")
-    fun authPatient(
-        @Path("phone_number") phone_number: String?,
-        @Path("password") password: String?
-    ): Call<Patient>
 
     @PUT("book_appointment/{appointment_id}/{patient_id}")
     fun bookAppointment(
@@ -51,9 +57,17 @@ interface Endpoint {
         @Path("doctor_id") doctor_id: Long?
     ): Call<String>
 
-    @GET("all_patient_advice/{patient_id}")
-    fun getAllAdvice(
-            @Path("patient_id") patient_id: Long?
-    ): Call<List<Advice>>
+    @POST("register/{user_type}/{user_id}/{token}")
+    fun registerToken(
+        @Path("user_type") user_type: String? = "patient",
+        @Path("user_id") user_id: Long?,
+        @Path("token") token: String?
+    ): Call<Long>
+
+    @DELETE("unregister/{device_id}")
+    fun unregisterToken(
+        @Path("device_id") device_id: Long?
+    ): Call<String>
+
 }
 

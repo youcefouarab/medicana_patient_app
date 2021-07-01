@@ -5,6 +5,7 @@ import com.example.medicana.entity.Advice
 
 @Dao
 interface AdviceDao {
+
     @Query("SELECT * FROM advice WHERE doctor_id = :doctor_id")
     fun getAdviceWithDoctor(doctor_id: Long?): List<Advice>
 
