@@ -84,6 +84,7 @@ class ProfileFragment : Fragment() {
             RoomService.appDatabase.getAdviceDao().deleteAll()
             RoomService.appDatabase.getAppointmentDao().deleteAll()
             RoomService.appDatabase.getDoctorDao().deleteAll()
+            RoomService.appDatabase.getTreatmentDao().deleteAll()
             val call = RetrofitService.endpoint.unregisterToken(pref.deviceId)
             call.enqueue(object : Callback<String> {
                 override fun onResponse(

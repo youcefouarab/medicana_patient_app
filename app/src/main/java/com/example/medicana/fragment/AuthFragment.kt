@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.ui.setupWithNavController
 import com.example.medicana.R
-import com.example.medicana.entity.Advice
-import com.example.medicana.entity.Appointment
-import com.example.medicana.entity.Doctor
-import com.example.medicana.entity.Patient
+import com.example.medicana.entity.*
 import com.example.medicana.prefs.SharedPrefs
 import com.example.medicana.retrofit.RetrofitService
 import com.example.medicana.room.RoomService
@@ -114,20 +111,40 @@ class AuthFragment : Fragment() {
                                             response: Response<List<Advice>>?
                                     ) {
                                         if (response?.isSuccessful!!) {
-                                            try {
-                                                RoomService.appDatabase.getAppointmentDao()
-                                                        .addMyAppointments(appointments!!)
-                                                RoomService.appDatabase.getDoctorDao()
-                                                        .addMyDoctors(doctors!!)
-                                                RoomService.appDatabase.getAdviceDao()
-                                                        .addMyAdvice(response.body()!!)
-                                            } catch (e: Exception) {
-                                                Toast.makeText(
-                                                        act,
-                                                        "Your information wasn't completely restored!",
-                                                        Toast.LENGTH_LONG
-                                                ).show()
-                                            }
+                                            val advice = response.body()
+                                            val call4 = RetrofitService.endpoint.getMyTreatments(patient_id)
+                                            call4.enqueue(object : Callback<List<Treatment>> {
+                                                override fun onResponse(
+                                                        call: Call<List<Treatment>>?,
+                                                        response: Response<List<Treatment>>?
+                                                ) {
+                                                    if (response?.isSuccessful!!) {
+                                                        try {
+                                                            RoomService.appDatabase.getAppointmentDao()
+                                                                    .addMyAppointments(appointments!!)
+                                                            RoomService.appDatabase.getDoctorDao()
+                                                                    .addMyDoctors(doctors!!)
+                                                            RoomService.appDatabase.getAdviceDao()
+                                                                    .addMyAdvice(advice!!)
+                                                            RoomService.appDatabase.getTreatmentDao()
+                                                                    .addMyTreatments(response.body()!!)
+                                                        } catch (e: Exception) {
+                                                            Toast.makeText(
+                                                                    act,
+                                                                    "Your information wasn't completely restored!",
+                                                                    Toast.LENGTH_LONG
+                                                            ).show()
+                                                        }
+                                                    } else {
+                                                        checkFailure(act)
+                                                    }
+                                                }
+
+                                                override fun onFailure(call: Call<List<Treatment>>?, t: Throwable?) {
+                                                    Log.e("Retrofit error", t.toString())
+                                                    checkFailure(act)
+                                                }
+                                            })
                                         } else {
                                             checkFailure(act)
                                         }
