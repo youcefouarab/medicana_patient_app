@@ -9,38 +9,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.medicana.R
-import com.example.medicana.adapter.AppointmentAdapter
+import com.example.medicana.adapter.TreatmentAdapter
 import com.example.medicana.room.RoomService
-import kotlinx.android.synthetic.main.fragment_old_appointments.*
+import kotlinx.android.synthetic.main.fragment_old_treatments.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OldAppointmentsFragment : Fragment() {
+class OldTreatmentsFragment : Fragment() {
 
     private lateinit var act: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         act = requireActivity()
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_old_appointments, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_old_treatments, container, false)
     }
 
     @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        old_appointments_list?.layoutManager = LinearLayoutManager(act)
+        old_treatments_list?.layoutManager = LinearLayoutManager(act)
 
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date())
-        val time = SimpleDateFormat("HH:mm").format(Date())
 
-        old_appointments_list?.adapter = AppointmentAdapter(act, RoomService.appDatabase.getAppointmentDao().getMyOldAppointments(date + "T00:00:00.000Z", time))
-
+        old_treatments_list?.adapter = TreatmentAdapter(act, RoomService.appDatabase.getTreatmentDao().getMyOldTreatments(date + "T00:00:00.000Z"))
     }
+
 }

@@ -30,11 +30,11 @@ interface Endpoint {
     @GET("doctors")
     fun getDoctors(): Call<List<Doctor>>
 
-    @GET("availabilities/{doctor_id}/{date}/{time}")
+    @GET("availabilities/{doctor_id}/{date}/{start_time}")
     fun getAvailabilitiesForDoctorByDate(
         @Path("doctor_id") doctor_id: Long?,
         @Path("date") date: String?,
-        @Path("time") time: String?
+        @Path("start_time") start_time: String?
     ): Call<List<Appointment>>
 
     @PUT("book_appointment/{appointment_id}/{patient_id}")

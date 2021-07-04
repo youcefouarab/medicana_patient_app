@@ -2,7 +2,7 @@ package com.example.medicana.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.medicana.MESSAGE_SENT
+import com.example.medicana.util.MESSAGE_SENT
 import com.example.medicana.util.unixTimestamp
 import java.io.Serializable
 

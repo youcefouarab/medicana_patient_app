@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
-    android:background="@drawable/bg_rounded_white"
+    android:background="@drawable/bg_rounded_white_small"
     android:elevation="@dimen/elevation"
     tools:ignore="UnusedAttribute">
 
@@ -25,6 +25,21 @@
         app:layout_constraintTop_toTopOf="@+id/imageView5"
         tools:ignore="HardcodedText" />
 
+    <TextView
+        android:id="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:singleLine="true"
+        android:text="-"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/appointments_date"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/appointments_date"
+        app:layout_constraintTop_toTopOf="@+id/appointments_date"
+        tools:ignore="HardcodedText" />
+
 
     <TextView
         android:id="@+id/appointments_time"
@@ -35,11 +50,11 @@
         android:text="TextView"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/appointments_date"
+        app:layout_constraintBottom_toBottomOf="@+id/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/appointments_date"
-        app:layout_constraintTop_toTopOf="@+id/appointments_date"
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toTopOf="@+id/line"
         tools:ignore="HardcodedText" />
 
     <ImageView

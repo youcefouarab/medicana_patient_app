@@ -153,7 +153,7 @@ fun getQrCodeBitmap(qrCodeContent: String): Bitmap {
     return Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).also {
         for (x in 0 until size) {
             for (y in 0 until size) {
-                it.setPixel(x, y, if (bits[x, y]) Color.parseColor("#EC2323") else Color.WHITE)
+                it.setPixel(x, y, if (bits[x, y]) Color.parseColor("#FF5151") else Color.WHITE)
             }
         }
     }

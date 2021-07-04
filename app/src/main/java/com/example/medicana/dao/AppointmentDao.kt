@@ -7,8 +7,11 @@ import com.example.medicana.entity.MyAppointment
 @Dao
 interface AppointmentDao {
 
-    @Query("SELECT * FROM appointment NATURAL JOIN doctor")
-    fun getMyAppointments(): List<MyAppointment>
+    @Query("SELECT * FROM appointment LEFT JOIN doctor ON appointment.doctor_id = doctor.doctor_id WHERE date > :date OR (date = :date AND finish_time >= :time)")
+    fun getMyCurrentAppointments(date: String, time: String): List<MyAppointment>
+
+    @Query("SELECT * FROM appointment LEFT JOIN doctor ON appointment.doctor_id = doctor.doctor_id WHERE date < :date OR (date = :date AND finish_time < :time)")
+    fun getMyOldAppointments(date: String, time: String): List<MyAppointment>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addMyAppointment(appointment: Appointment)

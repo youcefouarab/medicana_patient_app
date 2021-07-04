@@ -85,6 +85,10 @@ class ProfileFragment : Fragment() {
             RoomService.appDatabase.getAppointmentDao().deleteAll()
             RoomService.appDatabase.getDoctorDao().deleteAll()
             RoomService.appDatabase.getTreatmentDao().deleteAll()
+
+            pref.connected = false
+            pref.token = ""
+
             val call = RetrofitService.endpoint.unregisterToken(pref.deviceId)
             call.enqueue(object : Callback<String> {
                 override fun onResponse(
@@ -102,8 +106,6 @@ class ProfileFragment : Fragment() {
                 }
             })
 
-            pref.connected = false
-            pref.token = ""
             pref.deviceId = 0
 
             navController(act).navigate(R.id.action_profileFragment_to_nav_host)

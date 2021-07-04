@@ -1,4 +1,4 @@
-package com.example.medicana
+package com.example.medicana.util
 
 const val BASE_URL = "https://appmedicana.herokuapp.com/"
 

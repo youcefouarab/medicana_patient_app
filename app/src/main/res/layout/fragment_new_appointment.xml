@@ -11,15 +11,16 @@
         android:layout_height="match_parent"
         tools:context=".fragment.AppointmentFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/new_appointment_toolbar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/toolbar_height"
-        android:background="@color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/new_appointment_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="@color/transparent"
+            android:theme="@style/ToolbarBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -119,5 +120,5 @@
 
         </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.medicana.R
 import com.example.medicana.entity.Appointment
-import com.example.medicana.fragment.DoctorFragmentDirections
 import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM.vm
 
@@ -24,11 +23,10 @@ class TimeAdapter(val context: Context, val data: List<Appointment>): RecyclerVi
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
-        holder.availableTime.text = data[position].time.toString()
+        holder.availableTime.text = data[position].start_time.toString()
         holder.itemView.setOnClickListener {
             vm.appointment = data[position]
-            val action = DoctorFragmentDirections.actionDoctorFragmentToAppointmentFragment(true)
-            navController(context as Activity).navigate(action)
+            navController(context as Activity).navigate(R.id.action_doctorFragment_to_newAppointmentFragment)
         }
     }
 

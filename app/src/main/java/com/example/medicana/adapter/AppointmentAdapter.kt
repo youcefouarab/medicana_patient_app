@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.medicana.R
 import com.example.medicana.entity.MyAppointment
-import com.example.medicana.fragment.AppointmentsFragmentDirections
 import com.example.medicana.util.displayDate
 import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM.vm
@@ -30,12 +29,11 @@ class AppointmentAdapter(val context: Context, val data: List<MyAppointment>): R
     override fun onBindViewHolder(holder: AppointmentViewHolder, position: Int) {
         holder.appointmentsDoctorName.text = "Dr. " + data[position].first_name + " " + data[position].last_name + " (" + data[position].specialty + ")"
         holder.appointmentsDate.text = displayDate(data[position].date!!)
-        holder.appointmentsTime.text = data[position].time.toString()
+        holder.appointmentsTime.text = data[position].start_time.toString()
 
         holder.itemView.setOnClickListener{
             vm.myAppointment = data[position]
-            val action = AppointmentsFragmentDirections.actionAppointmentsFragmentToAppointmentFragment(false)
-            navController(context as Activity).navigate(action)
+            navController(context as Activity).navigate(R.id.action_appointmentsFragment_to_appointmentFragment)
         }
     }
 

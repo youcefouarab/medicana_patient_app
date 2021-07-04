@@ -6,7 +6,8 @@ import java.io.Serializable
 data class MyAppointment(
     val appointment_id: Long?,
     val date: String?,
-    val time: String?,
+    val start_time: String?,
+    val finish_time: String?,
     val doctor_id: Long?,
     val phone_number: String?,
     val first_name: String?,

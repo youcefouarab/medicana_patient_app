@@ -47,4 +47,8 @@
     <string name="logo">Logo</string>
     <string name="message">Message</string>
     <string name="logout">Logout</string>
+    <string name="treatment">Treatment</string>
+    <string name="keep_up_with_your_treatments">Keep up with your treatments</string>
+    <string name="current">Current</string>
+    <string name="old">Old</string>
 </resources>

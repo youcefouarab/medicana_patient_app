@@ -6,6 +6,11 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:colorEdgeEffect">@color/medicana_light</item>
         <item name="android:forceDarkAllowed">false</item>
+
+        <item name="colorPrimary">@color/medicana</item>
+        <item name="colorPrimaryDark">@color/medicana</item>
+        <item name="colorAccent">@color/medicana</item>
+
     </style>
     <style name="fullRoundEdge">
         <item name="cornerFamily">rounded</item>
@@ -23,4 +28,13 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/radius_small</item>
     </style>
+
+    <style name="ToolbarBack" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/medicana</item>
+    </style>
+
+    <style name="ToolbarBackWhite" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
 </resources>
