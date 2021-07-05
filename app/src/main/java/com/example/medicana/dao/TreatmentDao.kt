@@ -7,16 +7,16 @@ import com.example.medicana.entity.Treatment
 interface TreatmentDao {
 
     @Query("SELECT * FROM treatment WHERE :date <= finish_date")
-    fun getMyCurrentTreatments(date: String): List<Treatment>
+    fun getMyCurrentTreatments(date: String?): List<Treatment>
 
     @Query("SELECT * FROM treatment WHERE :date > finish_date")
-    fun getMyOldTreatments(date: String): List<Treatment>
+    fun getMyOldTreatments(date: String?): List<Treatment>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTreatment(treatment: Treatment)
+    fun addTreatment(treatment: Treatment?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addMyTreatments(treatments: List<Treatment>)
+    fun addMyTreatments(treatments: List<Treatment?>?)
 
     @Query("DELETE FROM treatment")
     fun deleteAll()

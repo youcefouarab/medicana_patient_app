@@ -42,7 +42,6 @@ class AppointmentsFragment : Fragment() {
 
         if (tabs != null) {
             selectTab(vm.appointCurr)
-
             tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     selectTab(tab?.position)
@@ -59,7 +58,6 @@ class AppointmentsFragment : Fragment() {
         need_auth_button?.setOnClickListener {
             navController(act).navigate(R.id.action_appointmentsFragment_to_authFragment)
         }
-
     }
 
     private fun selectTab(pos: Int?) {

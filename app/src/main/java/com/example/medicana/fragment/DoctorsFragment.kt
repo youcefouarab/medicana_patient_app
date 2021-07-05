@@ -20,7 +20,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class DoctorsFragment : Fragment() {
 
     private lateinit var act: Activity
@@ -37,42 +36,36 @@ class DoctorsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_doctors, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         act.nav_bottom?.visibility = View.VISIBLE
         doctors_list?.layoutManager = LinearLayoutManager(act)
         val data = vm.doctors
         if (data != null) {
             doctors_list?.adapter = DoctorAdapter(act, data)
-        } else {
-            val call = RetrofitService.endpoint.getDoctors()
-            call.enqueue(object : Callback<List<Doctor>> {
-                override fun onResponse(
+        }
+        val call = RetrofitService.endpoint.getDoctors()
+        call.enqueue(object : Callback<List<Doctor>> {
+            override fun onResponse(
                     call: Call<List<Doctor>>?,
                     response: Response<List<Doctor>>?
-                ) {
-                    if (response?.isSuccessful!!) {
-                        val doctors = response.body()
-                        try {
-                            vm.doctors = doctors
-                        } catch (e: Exception) {
-                            Log.e("DoctorViewModel error", e.toString())
-                        }
-                        doctors_list?.layoutManager = LinearLayoutManager(act)
-                        doctors_list?.adapter = DoctorAdapter(act, doctors!!)
-                    } else {
-                        checkFailure(act)
+            ) {
+                if (response?.isSuccessful == true) {
+                    vm.doctors = response.body()
+                    try {
+                        doctors_list?.adapter = DoctorAdapter(act, vm.doctors!!)
+                    } catch (t: Throwable) {
+
                     }
+                } else {
+                    checkFailure(act, null)
                 }
+            }
 
-                override fun onFailure(call: Call<List<Doctor>>?, t: Throwable?) {
-                    Log.e("Retrofit error", t.toString())
-                    checkFailure(act)
-                }
-            })
-        }
+            override fun onFailure(call: Call<List<Doctor>>?, t: Throwable?) {
+                checkFailure(act, t)
+            }
+        })
     }
-
-
 
 }

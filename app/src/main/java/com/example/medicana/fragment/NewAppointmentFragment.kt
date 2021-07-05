@@ -3,12 +3,12 @@ package com.example.medicana.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.ui.setupWithNavController
 import com.example.medicana.R
 import com.example.medicana.util.RES_SUCCESS
@@ -42,6 +42,9 @@ class NewAppointmentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return if (SharedPrefs(act).connected) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                act.window.statusBarColor = ContextCompat.getColor(act, R.color.white)
+            }
             inflater.inflate(R.layout.fragment_new_appointment, container, false)
         } else {
             inflater.inflate(R.layout.layout_need_auth, container, false)
@@ -52,9 +55,6 @@ class NewAppointmentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         act.nav_bottom?.visibility = View.GONE
-
-        val patientId = SharedPrefs(act).patientId
-
         new_appointment_toolbar?.setupWithNavController(navController(act))
         new_appointment_toolbar?.title = ""
 
@@ -62,20 +62,28 @@ class NewAppointmentFragment : Fragment() {
         val appointment = VM.vm.appointment
         if ((doctor != null) && (appointment != null)) {
             new_appointment_doctor?.text = "Dr. " + doctor.first_name + " " + doctor.last_name
-            new_appointment_date?.text = displayDate(appointment.date!!)
-            new_appointment_time?.text = appointment.start_time.toString()
+            var displayDate = ""
+            try {
+                displayDate = displayDate(appointment.date!!)
+            } catch (t: Throwable) {
+
+            }
+            new_appointment_date?.text = displayDate
+            new_appointment_time?.text = appointment.start_time
             new_appointment_address?.text = doctor.address
             new_appointment_confirm?.setOnClickListener {
+                new_appointment_confirm?.isClickable = false
                 val call = RetrofitService.endpoint.bookAppointment(
                     appointment.appointment_id,
-                    patientId
+                    SharedPrefs(act).patientId,
+                    appointment.doctor_id
                 )
                 call.enqueue(object : Callback<String> {
                     override fun onResponse(
                         call: Call<String>?,
                         response: Response<String>?
                     ) {
-                        if (response?.isSuccessful!!) {
+                        if (response?.isSuccessful == true) {
                             if (response.body() == RES_SUCCESS) {
                                 RoomService.appDatabase.getAppointmentDao().addMyAppointment(
                                     Appointment(
@@ -87,22 +95,21 @@ class NewAppointmentFragment : Fragment() {
                                     )
                                 )
                                 RoomService.appDatabase.getDoctorDao().addMyDoctor(doctor)
-
-                                Toast.makeText(act, R.string.booking_success, Toast.LENGTH_LONG)
-                                    .show()
+                                Toast.makeText(act, R.string.booking_success, Toast.LENGTH_LONG).show()
                                 navController(act).navigate(R.id.action_newAppointmentFragment_to_appointmentsFragment)
                             } else {
-                                Toast.makeText(act, R.string.error, Toast.LENGTH_LONG).show()
+                                checkFailure(act, null)
                                 navController(act).navigateUp()
                             }
                         } else {
-                            checkFailure(act)
+                            checkFailure(act, null)
+                            navController(act).navigateUp()
                         }
                     }
 
                     override fun onFailure(call: Call<String>?, t: Throwable?) {
-                        Log.e("Retrofit error", t.toString())
-                        checkFailure(act)
+                        checkFailure(act, t)
+                        navController(act).navigateUp()
                     }
                 })
             }
@@ -112,6 +119,13 @@ class NewAppointmentFragment : Fragment() {
         need_auth_toolbar?.title = ""
         need_auth_button?.setOnClickListener {
             navController(act).navigate(R.id.action_newAppointmentFragment_to_authFragment)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            act.window.statusBarColor = ContextCompat.getColor(act, R.color.medicana)
         }
     }
 }

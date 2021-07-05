@@ -2,8 +2,6 @@ package com.example.medicana.dao
 
 import androidx.room.*
 import com.example.medicana.entity.Advice
-import com.example.medicana.util.MESSAGE_SEEN
-import com.example.medicana.util.MESSAGE_SENT
 
 @Dao
 interface AdviceDao {
@@ -18,16 +16,13 @@ interface AdviceDao {
     fun getAdviceDoctorsToSyncUpdate(): List<Long>
 
     @Update
-    fun updateSyncedAdvice(advice_list: List<Advice>)
+    fun updateSyncedAdvice(advice_list: List<Advice?>?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addAdvice(advice: Advice)
+    fun addAdvice(advice: Advice?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addMyAdvice(advice: List<Advice>)
-
-    @Query("DELETE FROM advice WHERE advice_id = :advice_id")
-    fun deleteAdvice(advice_id: Long?)
+    fun addMyAdvice(advice: List<Advice?>?)
 
     @Query("SELECT count(*) FROM advice WHERE doctor_id = :doctor_id AND reply IS NOT NULL AND state = 'sent'")
     fun checkUnreadFromDoctor(doctor_id: Long?): Int

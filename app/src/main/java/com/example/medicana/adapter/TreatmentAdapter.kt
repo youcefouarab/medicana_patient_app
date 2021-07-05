@@ -26,9 +26,16 @@ class TreatmentAdapter(val context: Context, val data: List<Treatment>): Recycle
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TreatmentViewHolder, position: Int) {
         holder.treatmentDescription.text = data[position].description
-        holder.treatmentStartDate.text = displayDate(data[position].start_date!!)
-        holder.treatmentFinishDate.text = displayDate(data[position].finish_date!!)
+        var displayStartDate = ""
+        var displayFinishDate = ""
+        try {
+            displayStartDate = displayDate(data[position].start_date!!)
+            displayFinishDate = displayDate(data[position].finish_date!!)
+        } catch (t: Throwable) {
 
+        }
+        holder.treatmentStartDate.text = displayStartDate
+        holder.treatmentFinishDate.text = displayFinishDate
         holder.itemView.setOnClickListener{
             VM.vm.treatment = data[position]
             //navController(context as Activity).navigate(???)

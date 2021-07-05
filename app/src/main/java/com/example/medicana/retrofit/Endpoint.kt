@@ -37,10 +37,11 @@ interface Endpoint {
         @Path("start_time") start_time: String?
     ): Call<List<Appointment>>
 
-    @PUT("book_appointment/{appointment_id}/{patient_id}")
+    @PUT("book_appointment/{appointment_id}/{patient_id}/{doctor_id}")
     fun bookAppointment(
         @Path("appointment_id") appointment_id: Long?,
-        @Path("patient_id") patient_id: Long?
+        @Path("patient_id") patient_id: Long?,
+        @Path("doctor_id") doctor_id: Long?
     ): Call<String>
 
     @PUT("cancel_appointment/{appointment_id}")
@@ -73,6 +74,12 @@ interface Endpoint {
     fun getMyTreatments(
             @Path("patient_id") patient_id: Long?
     ): Call<List<Treatment>>
+
+    @GET("advice_with_doctor/{doctor_id}/{patient_id}")
+    fun getAdviceWithDoctor(
+            @Path("doctor_id") doctor_id: Long?,
+            @Path("patient_id") patient_id: Long?
+    ): Call<List<Advice>>
 
 }
 

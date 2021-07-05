@@ -26,7 +26,6 @@ class CurrentAppointmentsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_current_appointments, container, false)
     }
 
@@ -35,12 +34,9 @@ class CurrentAppointmentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         current_appointments_list?.layoutManager = LinearLayoutManager(act)
-
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date())
         val time = SimpleDateFormat("HH:mm").format(Date())
-
         current_appointments_list?.adapter = AppointmentAdapter(act, RoomService.appDatabase.getAppointmentDao().getMyCurrentAppointments(date + "T00:00:00.000Z", time))
     }
 
-    
 }

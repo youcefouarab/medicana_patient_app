@@ -42,7 +42,6 @@ class TreatmentsFragment : Fragment() {
 
         if (treatments_tabs != null) {
             selectTab(vm.treatCurr)
-
             treatments_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     selectTab(tab?.position)
@@ -59,7 +58,6 @@ class TreatmentsFragment : Fragment() {
         need_auth_button?.setOnClickListener {
             navController(requireActivity()).navigate(R.id.action_treatmentsFragment_to_authFragment)
         }
-
     }
 
     private fun selectTab(pos: Int?) {

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_doctorsFragment_to_doctorFragment"
             app:destination="@id/doctorFragment" />
+        <action
+            android:id="@+id/action_nav_host_to_treatmentsFragment"
+            app:destination="@id/treatmentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"

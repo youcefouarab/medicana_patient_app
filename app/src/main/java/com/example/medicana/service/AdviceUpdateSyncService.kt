@@ -1,6 +1,5 @@
 package com.example.medicana.service
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.work.ListenableWorker
@@ -50,6 +49,5 @@ class AdviceUpdateSyncService(private val ctx: Context, workParameters: WorkerPa
             })
         }
     }
-
 
 }

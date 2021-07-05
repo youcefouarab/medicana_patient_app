@@ -36,11 +36,8 @@ class OldAppointmentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         old_appointments_list?.layoutManager = LinearLayoutManager(act)
-
         val date = SimpleDateFormat("yyyy-MM-dd").format(Date())
         val time = SimpleDateFormat("HH:mm").format(Date())
-
         old_appointments_list?.adapter = AppointmentAdapter(act, RoomService.appDatabase.getAppointmentDao().getMyOldAppointments(date + "T00:00:00.000Z", time))
-
     }
 }

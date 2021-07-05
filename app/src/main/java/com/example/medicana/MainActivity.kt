@@ -1,5 +1,6 @@
 package com.example.medicana
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.NavigationUI
@@ -7,7 +8,6 @@ import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -60,6 +60,12 @@ class MainActivity : AppCompatActivity() {
         return navController(this).navigateUp()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        //navController(this).navigate(R.id.action_nav_host_to_treatmentsFragment)
+        //What if we're in a different fragment (not nav_host)??
+    }
 
 
 }

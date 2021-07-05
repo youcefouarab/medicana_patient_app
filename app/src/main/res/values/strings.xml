@@ -24,7 +24,6 @@
     <string name="ask_me">Ask me anything!</string>
     <string name="call">Call</string>
     <string name="directions">Directions</string>
-
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
     <string name="tue">Tue</string>
@@ -32,12 +31,10 @@
     <string name="thu">Thu</string>
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
-
     <string name="welcome">Welcome!</string>
     <string name="booking_success">Your appointment has been booked!</string>
     <string name="booking_cancel">Your appointment has been canceled!</string>
-
-    <string name="error">An error has occured</string>
+    <string name="error">An error has occurred</string>
     <string name="internet_error">No internet</string>
     <string name="fb_error">Facebook wasn\'t detected</string>
     <string name="login_error">Wrong phone number or password</string>
@@ -49,8 +46,6 @@
     <string name="logout">Logout</string>
     <string name="treatment">Treatment</string>
     <string name="keep_up_with_your_treatments">Keep up with your treatments</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="current">Current</string>
     <string name="old">Old</string>
 </resources>

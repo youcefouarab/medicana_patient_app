@@ -23,13 +23,12 @@ class TimeAdapter(val context: Context, val data: List<Appointment>): RecyclerVi
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
-        holder.availableTime.text = data[position].start_time.toString()
+        holder.availableTime.text = data[position].start_time
         holder.itemView.setOnClickListener {
             vm.appointment = data[position]
             navController(context as Activity).navigate(R.id.action_doctorFragment_to_newAppointmentFragment)
         }
     }
-
 
     class TimeViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val availableTime = view.findViewById(R.id.available_time) as TextView

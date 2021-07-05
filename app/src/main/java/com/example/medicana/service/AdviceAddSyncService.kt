@@ -1,6 +1,5 @@
 package com.example.medicana.service
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.work.ListenableWorker
@@ -28,7 +27,6 @@ class AdviceAddSyncService(ctx: Context, workParameters: WorkerParameters): List
     }
 
     private fun syncAdvice(advice: List<Advice>) {
-
         val result = RetrofitService.endpoint.askForAdvice(advice)
         result.enqueue(object: Callback<String> {
             override fun onFailure(call: Call<String>?, t: Throwable?) {

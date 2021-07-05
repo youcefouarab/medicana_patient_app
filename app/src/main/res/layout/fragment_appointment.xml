@@ -116,7 +116,6 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="50dp"
-                    android:layout_marginLeft="50dp"
                     android:layout_weight="1"
                     android:contentDescription="@string/date"
                     app:srcCompat="@drawable/ic_date" />
@@ -127,7 +126,6 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="50dp"
-                    android:layout_marginRight="50dp"
                     android:layout_weight="1"
                     android:contentDescription="@string/time"
                     app:srcCompat="@drawable/ic_time" />
@@ -148,7 +146,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
-                    android:layout_marginLeft="50dp"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="TextView"
@@ -163,7 +160,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="50dp"
-                    android:layout_marginRight="50dp"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="TextView"
@@ -238,7 +234,5 @@ android:layout_height="match_parent">
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 
 </FrameLayout>

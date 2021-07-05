@@ -42,7 +42,15 @@ class AdviceAdapter(val context: Context, val data: List<Advice>): RecyclerView.
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: AdviceViewHolder, position: Int) {
-        holder.adviceDateTime.text = displayDateFromUnix(data[position].date_time!!) + " - " + displayTimeFromUnix(data[position].date_time!!)
+        var displayDate = ""
+        var displayTime = ""
+        try {
+            displayDate = displayDateFromUnix(data[position].date_time!!)
+            displayTime = displayTimeFromUnix(data[position].date_time!!)
+        } catch (t: Throwable) {
+
+        }
+        holder.adviceDateTime.text = "$displayDate - $displayTime"
         if (data[position].message != null) {
             holder.adviceMessage.text = data[position].message
         } else {

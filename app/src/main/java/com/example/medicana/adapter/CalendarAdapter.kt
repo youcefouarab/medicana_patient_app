@@ -15,7 +15,6 @@ class CalendarAdapter(
         val context: Context,
         private val days: java.util.ArrayList<LocalDate?>,
         private val onItemListener: OnItemListener
-
 ): RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {

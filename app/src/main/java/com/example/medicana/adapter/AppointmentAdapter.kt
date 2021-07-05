@@ -28,9 +28,14 @@ class AppointmentAdapter(val context: Context, val data: List<MyAppointment>): R
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: AppointmentViewHolder, position: Int) {
         holder.appointmentsDoctorName.text = "Dr. " + data[position].first_name + " " + data[position].last_name + " (" + data[position].specialty + ")"
-        holder.appointmentsDate.text = displayDate(data[position].date!!)
-        holder.appointmentsTime.text = data[position].start_time.toString()
+        var displayDate = ""
+        try {
+            displayDate = displayDate(data[position].date!!)
+        } catch (t: Throwable) {
 
+        }
+        holder.appointmentsDate.text = displayDate
+        holder.appointmentsTime.text = data[position].start_time
         holder.itemView.setOnClickListener{
             vm.myAppointment = data[position]
             navController(context as Activity).navigate(R.id.action_appointmentsFragment_to_appointmentFragment)

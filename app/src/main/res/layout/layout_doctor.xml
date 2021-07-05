@@ -100,5 +100,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_map_pin" />
+        app:srcCompat="@drawable/ic_map_pin"
+        android:contentDescription="@string/directions" />
 </androidx.constraintlayout.widget.ConstraintLayout>

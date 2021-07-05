@@ -10,19 +10,16 @@ interface DoctorDao {
     fun getMyDoctors(): List<Doctor>
 
     @Query("SELECT * FROM doctor WHERE doctor_id = :doctor_id")
-    fun getMyDoctor(doctor_id: Long): Doctor
+    fun getMyDoctor(doctor_id: Long?): Doctor
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addMyDoctor(doctor: Doctor)
+    fun addMyDoctor(doctor: Doctor?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addMyDoctors(doctors: List<Doctor>)
+    fun addMyDoctors(doctors: List<Doctor?>?)
 
     @Query("DELETE FROM doctor WHERE doctor_id = :doctor_id")
     fun deleteMyDoctor(doctor_id: Long?)
-
-    @Query("SELECT count(*) FROM doctor WHERE doctor_id = :doctor_id")
-    fun checkDoctorExists(doctor_id: Long?): Int
 
     @Query("DELETE FROM doctor")
     fun deleteAll()

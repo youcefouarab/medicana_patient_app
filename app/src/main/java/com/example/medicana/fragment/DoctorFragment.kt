@@ -27,6 +27,7 @@ import java.time.LocalDate
 import com.example.medicana.util.CalendarUtils.daysInWeekArray
 import com.example.medicana.util.CalendarUtils.monthYearFromDate
 import com.example.medicana.viewmodel.VM.vm
+import kotlinx.android.synthetic.main.fragment_appointment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +48,6 @@ class DoctorFragment : Fragment(), CalendarAdapter.OnItemListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_doctor, container, false)
     }
 
@@ -57,12 +57,16 @@ class DoctorFragment : Fragment(), CalendarAdapter.OnItemListener {
         act.nav_bottom?.visibility = View.GONE
         doctor_toolbar?.setupWithNavController(navController(act))
         doctor_toolbar?.title = ""
+
         val doctor = vm.doctor
-        //Glide.with(context).load(BASE_URL + data[position].photo).into(holder.doctors_photo)
-        if (doctor?.gender == "male") {
-            Glide.with(act).load(R.drawable.default_doctor_male).into(doctor_photo!!)
+        if (doctor?.photo != null) {
+            Glide.with(act).load(BASE_URL + doctor.photo).into(doctor_photo)
         } else {
-            Glide.with(act).load(R.drawable.default_doctor_female).into(doctor_photo!!)
+            if (doctor?.gender == "male") {
+                Glide.with(act).load(R.drawable.default_doctor_male).into(doctor_photo)
+            } else {
+                Glide.with(act).load(R.drawable.default_doctor_female).into(doctor_photo)
+            }
         }
         doctor_name?.text = "Dr. " + doctor?.first_name + " " + doctor?.last_name
         doctor_specialty?.text = doctor?.specialty
@@ -104,7 +108,6 @@ class DoctorFragment : Fragment(), CalendarAdapter.OnItemListener {
         val days = daysInWeekArray(selectedDate)
         calendar_recyclerview?.layoutManager = GridLayoutManager(act, 7)
         calendar_recyclerview?.adapter = CalendarAdapter(act, days, this)
-
         times_recyclerview?.layoutManager = GridLayoutManager(act, 3)
         val doctor = vm.doctor
         val today = SimpleDateFormat("yyyy-MM-dd").format(Date())
@@ -121,15 +124,18 @@ class DoctorFragment : Fragment(), CalendarAdapter.OnItemListener {
                         call: Call<List<Appointment>>?,
                         response: Response<List<Appointment>>?
                 ) {
-                    if (response?.isSuccessful!!) {
-                        times_recyclerview?.adapter = TimeAdapter(act, response.body()!!)
+                    if (response?.isSuccessful == true) {
+                        try {
+                            times_recyclerview?.adapter = TimeAdapter(act, response.body()!!)
+                        } catch (t: Throwable) {
+                            times_recyclerview?.adapter = TimeAdapter(act, ArrayList<Appointment>())
+                        }
                     } else {
-                        checkFailure(act)
+                        checkFailure(act, null)
                     }
                 }
                 override fun onFailure(call: Call<List<Appointment>>?, t: Throwable?) {
-                    Log.e("Retrofit error", t.toString())
-                    checkFailure(act)
+                    checkFailure(act, t)
                 }
             })
         } else {

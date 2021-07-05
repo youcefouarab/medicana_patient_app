@@ -24,7 +24,6 @@
     <string name="ask_me">Posez-moi une question!</string>
     <string name="call">Appeler</string>
     <string name="directions">Directions</string>
-
     <string name="sun">Dim</string>
     <string name="mon">Lun</string>
     <string name="tue">Mar</string>
@@ -32,23 +31,21 @@
     <string name="thu">Jeu</string>
     <string name="fri">Ven</string>
     <string name="sat">Sam</string>
-
     <string name="welcome">Bienvenus!</string>
     <string name="booking_success">Votre rendez-vous est pris!</string>
-    <string name="booking_cancel">Your appointment has been canceled!</string>
-
+    <string name="booking_cancel">Votre rendez-vous est annulé!</string>
     <string name="error">Une erreur est survenue</string>
     <string name="internet_error">Pas d\'internet</string>
     <string name="fb_error">Facebook n\'a pas été detecté</string>
     <string name="login_error">Numéro de téléphone ou mot de passe erroné</string>
-    <string name="send">Send</string>
+    <string name="send">Envoyer</string>
     <string name="date">Date</string>
-    <string name="time">Time</string>
+    <string name="time">Temps</string>
     <string name="logo">Logo</string>
     <string name="message">Message</string>
-    <string name="logout">Logout</string>
-    <string name="treatment">Treatment</string>
-    <string name="keep_up_with_your_treatments">Keep up with your treatments</string>
-    <string name="current">Current</string>
-    <string name="old">Old</string>
+    <string name="logout">Déconnecter</string>
+    <string name="treatment">Traitement</string>
+    <string name="keep_up_with_your_treatments">Restez au courant de vos traitements</string>
+    <string name="current">Courants</string>
+    <string name="old">Anciens</string>
 </resources>

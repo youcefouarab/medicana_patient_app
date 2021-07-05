@@ -16,6 +16,7 @@ import com.example.medicana.entity.Doctor
 import com.example.medicana.util.navController
 import com.example.medicana.room.RoomService
 import com.example.medicana.service.AdviceUpdateSyncService
+import com.example.medicana.util.BASE_URL
 import com.example.medicana.viewmodel.VM.vm
 
 
@@ -33,19 +34,19 @@ class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerVie
     override fun onBindViewHolder(holder: MyDoctorViewHolder, position: Int) {
         holder.doctorsName.text = "Dr. " + data[position].first_name + " " + data[position].last_name
         holder.doctorsSpecialty.text = data[position].specialty
-
-        //Glide.with(context).load(BASE_URL + data[position].photo).into(holder.doctors_photo)
-        if (data[position].gender == "male") {
-            Glide.with(context).load(R.drawable.default_doctor_male).into(holder.doctorsPhoto)
+        if (data[position].photo != null) {
+            Glide.with(context).load(BASE_URL + data[position].photo).into(holder.doctorsPhoto)
         } else {
-            Glide.with(context).load(R.drawable.default_doctor_female).into(holder.doctorsPhoto)
+            if (data[position].gender == "male") {
+                Glide.with(context).load(R.drawable.default_doctor_male).into(holder.doctorsPhoto)
+            } else {
+                Glide.with(context).load(R.drawable.default_doctor_female).into(holder.doctorsPhoto)
+            }
         }
-
         val unread = RoomService.appDatabase.getAdviceDao().checkUnreadFromDoctor(data[position].doctor_id)
         if (unread > 0) {
             Glide.with(context).load(R.drawable.ic_advice).into(holder.unreadIndicator)
         }
-
         holder.itemView.setOnClickListener{
             vm.doctor = data[position]
             navController(context as Activity).navigate(R.id.action_advicesFragment_to_adviceFragment)
@@ -63,7 +64,6 @@ class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerVie
         setConstraints(constraints).addTag("patient_advice_update_constraints").build()
         val workManager = WorkManager.getInstance(context)
         workManager.enqueueUniqueWork("patient_advice_update_work", ExistingWorkPolicy.REPLACE,req)
-
     }
 
     class MyDoctorViewHolder(view: View): RecyclerView.ViewHolder(view) {

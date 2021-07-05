@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.medicana.R
 import com.example.medicana.entity.Doctor
+import com.example.medicana.util.BASE_URL
 import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM.vm
 
@@ -35,13 +36,15 @@ class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.
         holder.doctorsSpecialty.text = data[position].specialty
         holder.doctorsPhone.text = data[position].phone_number
         holder.doctorsAddress.text = data[position].address
-
-        //Glide.with(context).load(BASE_URL + data[position].photo).into(holder.doctors_photo)
-        if (data[position].gender == "male") Glide.with(context).load(R.drawable.default_doctor_male).into(
-            holder.doctorsPhoto
-        )
-        else Glide.with(context).load(R.drawable.default_doctor_female).into(holder.doctorsPhoto)
-
+        if (data[position].photo != null) {
+            Glide.with(context).load(BASE_URL + data[position].photo).into(holder.doctorsPhoto)
+        } else {
+            if (data[position].gender == "male") {
+                Glide.with(context).load(R.drawable.default_doctor_male).into(holder.doctorsPhoto)
+            } else {
+                Glide.with(context).load(R.drawable.default_doctor_female).into(holder.doctorsPhoto)
+            }
+        }
         holder.doctorsPhone.setOnClickListener {
             startActivity(
                 context,
@@ -52,7 +55,6 @@ class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.
                 null
             )
         }
-
         holder.doctorsDirections.setOnClickListener {
             val mapIntent = Intent(
                 Intent.ACTION_VIEW,
@@ -61,7 +63,6 @@ class DoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerView.
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(context, mapIntent, null)
         }
-
         holder.itemView.setOnClickListener{
             vm.doctor = data[position]
             navController(context as Activity).navigate(R.id.action_doctorsFragment_to_doctorFragment)

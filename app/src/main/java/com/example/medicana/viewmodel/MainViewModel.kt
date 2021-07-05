@@ -12,7 +12,6 @@ class MainViewModel : ViewModel() {
     var myAppointment: MyAppointment? = null
     var appointment: Appointment? = null
     var treatment: Treatment? = null
-
     var appointCurr = 0
     var treatCurr = 0
 }

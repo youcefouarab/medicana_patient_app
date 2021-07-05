@@ -16,6 +16,7 @@ import com.example.medicana.room.RoomService
 import com.example.medicana.util.checkFailure
 import com.example.medicana.util.navController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.dimmed_bg
@@ -56,14 +57,11 @@ class ProfileFragment : Fragment() {
 
         profile_name?.text = pref.firstName + " " + pref.lastName
         profile_phone?.text = pref.phoneNumber
-
-        //Glide.with(context).load(BASE_URL + data[position].photo).into(holder.doctors_photo)
         if (profile_photo != null) {
-            Glide.with(act).load(R.drawable.default_profile).into(profile_photo!!)
+            Glide.with(act).load(R.drawable.default_profile).into(profile_photo)
         }
-
         if (profile_bottom_sheet != null) {
-            val bsBehave = BottomSheetBehavior.from(profile_bottom_sheet!!)
+            val bsBehave = BottomSheetBehavior.from(profile_bottom_sheet)
             bsBehave.apply {
                 peekHeight = 250
                 this.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -95,26 +93,49 @@ class ProfileFragment : Fragment() {
                     call: Call<String>?,
                     response: Response<String>?
                 ) {
-                    if (!response?.isSuccessful!!) {
-                        checkFailure(act)
+                    if (response?.isSuccessful == false) {
+                        checkFailure(act, null)
                     }
                 }
 
                 override fun onFailure(call: Call<String>?, t: Throwable?) {
-                    Log.e("Retrofit error", t.toString())
-                    checkFailure(act)
+                    checkFailure(act, t)
                 }
             })
 
             pref.deviceId = 0
 
-            navController(act).navigate(R.id.action_profileFragment_to_nav_host)
+            unsubscribeFromTreatments(pref.patientId)
+            unsubscribeFromAdvice(pref.patientId)
 
+            navController(act).navigate(R.id.action_profileFragment_to_nav_host)
         }
 
         need_auth_button?.setOnClickListener {
             navController(requireActivity()).navigate(R.id.action_profileFragment_to_authFragment)
         }
 
+    }
+
+    private fun unsubscribeFromTreatments(patient_id: Long) {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("treatments-for-$patient_id")
+                .addOnCompleteListener { task ->
+                    var msg = "unsubscribed"
+                    if (!task.isSuccessful) {
+                        msg = "not unsubscribed"
+                    }
+                    Log.d("firebase", msg)
+                }
+    }
+
+    private fun unsubscribeFromAdvice(patient_id: Long) {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("give-advice-to-$patient_id")
+                .addOnCompleteListener { task ->
+                    var msg = "unsubscribed"
+                    if (!task.isSuccessful) {
+                        msg = "not unsubscribed"
+                    }
+                    Log.d("firebase", msg)
+                }
     }
 }
