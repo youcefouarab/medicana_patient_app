@@ -12,9 +12,6 @@
         <action
             android:id="@+id/action_doctorsFragment_to_doctorFragment"
             app:destination="@id/doctorFragment" />
-        <action
-            android:id="@+id/action_nav_host_to_treatmentsFragment"
-            app:destination="@id/treatmentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -100,9 +97,6 @@
         android:id="@+id/AppointmentFragment"
         android:name="com.example.medicana.fragment.AppointmentFragment"
         android:label="AppointmentFragment" >
-        <action
-            android:id="@+id/action_appointmentFragment_to_appointmentsFragment"
-            app:destination="@id/appointmentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/treatmentFragment"

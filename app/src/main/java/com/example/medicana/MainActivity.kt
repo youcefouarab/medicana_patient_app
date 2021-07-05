@@ -83,10 +83,6 @@ class MainActivity : AppCompatActivity() {
                 VM.vm.treatCurr = 0
                 navController(this).navigate(R.id.treatmentsFragment)
             }
-            else -> {
-                VM.vm.treatCurr = 0
-                navController(this).navigate(R.id.treatmentsFragment)
-            }
         }
     }
 
