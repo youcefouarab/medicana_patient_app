@@ -13,9 +13,6 @@ interface TreatmentDao {
     fun getMyOldTreatments(date: String?): List<Treatment>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTreatment(treatment: Treatment?)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addMyTreatments(treatments: List<Treatment?>?)
 
     @Query("DELETE FROM treatment")

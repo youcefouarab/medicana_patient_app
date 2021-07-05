@@ -50,20 +50,7 @@ class MyDoctorAdapter(val context: Context, val data: List<Doctor>): RecyclerVie
         holder.itemView.setOnClickListener{
             vm.doctor = data[position]
             navController(context as Activity).navigate(R.id.action_advicesFragment_to_adviceFragment)
-            if (unread > 0) {
-                RoomService.appDatabase.getAdviceDao().updateSeenAdvice(data[position].doctor_id)
-                scheduleSync()
-            }
         }
-    }
-
-    private fun scheduleSync() {
-        val constraints = Constraints.Builder().
-        setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val req= OneTimeWorkRequest.Builder(AdviceUpdateSyncService::class.java).
-        setConstraints(constraints).addTag("patient_advice_update_constraints").build()
-        val workManager = WorkManager.getInstance(context)
-        workManager.enqueueUniqueWork("patient_advice_update_work", ExistingWorkPolicy.REPLACE,req)
     }
 
     class MyDoctorViewHolder(view: View): RecyclerView.ViewHolder(view) {

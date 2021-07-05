@@ -35,12 +35,20 @@ class NotificationService: FirebaseMessagingService() {
         }
 
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(NOTIFICATION, true)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val pendingIntent = PendingIntent.getActivity(
-                this, 100, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        )
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        when (remoteMessage.data["title"]) {
+            "Advice" -> {
+                intent.putExtra(NOTIFICATION, "advice")
+            }
+            "New treatment" -> {
+                intent.putExtra(NOTIFICATION, "treatment")
+            }
+        }
+
+        val uniqueInt = (System.currentTimeMillis() and 0xfffffff).toInt()
+        val pendingIntent = PendingIntent.getActivity(this, uniqueInt, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = NotificationCompat.Builder(this, channelId)
                 .setContentTitle(remoteMessage.data["title"])

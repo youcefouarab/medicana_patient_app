@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.NavigationUI
+import com.example.medicana.util.NOTIFICATION
 import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,7 +17,18 @@ class MainActivity : AppCompatActivity() {
 
         VM.context = this
 
+        when (this.intent.getStringExtra(NOTIFICATION)) {
+            "advice" -> {
+                navController(this).navigate(R.id.advicesFragment)
+            }
+            "treatment" -> {
+                VM.vm.treatCurr = 0
+                navController(this).navigate(R.id.treatmentsFragment)
+            }
+        }
+
         setContentView(R.layout.activity_main)
+
         NavigationUI.setupWithNavController(nav_bottom, navController(this))
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when(item.itemId) {
@@ -63,8 +75,19 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
-        //navController(this).navigate(R.id.action_nav_host_to_treatmentsFragment)
-        //What if we're in a different fragment (not nav_host)??
+        when (this.intent.getStringExtra(NOTIFICATION)) {
+            "advice" -> {
+                navController(this).navigate(R.id.advicesFragment)
+            }
+            "treatment" -> {
+                VM.vm.treatCurr = 0
+                navController(this).navigate(R.id.treatmentsFragment)
+            }
+            else -> {
+                VM.vm.treatCurr = 0
+                navController(this).navigate(R.id.treatmentsFragment)
+            }
+        }
     }
 
 

@@ -97,13 +97,11 @@ class AppointmentFragment : Fragment() {
                 mapIntent.setPackage("com.google.android.apps.maps")
                 startActivity(mapIntent)
             }
-            var displayDate = ""
             try {
-                displayDate = displayDate(myAppointment.date!!)
+                appointment_date?.text = displayDate(myAppointment.date!!)
             } catch (t: Throwable) {
 
             }
-            appointment_date?.text = displayDate
             appointment_time?.text = myAppointment.start_time
             appointment_cancel?.setOnClickListener {
                 appointment_cancel?.isClickable = false

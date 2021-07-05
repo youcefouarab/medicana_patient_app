@@ -48,4 +48,6 @@
     <string name="keep_up_with_your_treatments">Restez au courant de vos traitements</string>
     <string name="current">Courants</string>
     <string name="old">Anciens</string>
+    <string name="missing_phone_pass">Please login with your phone number and password</string>
+    <string name="db_error">Your information wasn\'t completely restored</string>
 </resources>

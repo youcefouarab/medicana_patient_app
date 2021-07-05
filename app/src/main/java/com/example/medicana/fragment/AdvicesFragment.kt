@@ -95,5 +95,4 @@ private lateinit var act: Activity
             navController(act).navigate(R.id.action_advicesFragment_to_authFragment)
         }
     }
-
 }

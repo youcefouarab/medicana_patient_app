@@ -20,6 +20,7 @@ import com.example.medicana.util.checkFailure
 import com.example.medicana.util.displayDate
 import com.example.medicana.util.navController
 import com.example.medicana.viewmodel.VM
+import com.example.medicana.viewmodel.VM.vm
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_new_appointment.*
 import kotlinx.android.synthetic.main.layout_need_auth.*
@@ -62,13 +63,11 @@ class NewAppointmentFragment : Fragment() {
         val appointment = VM.vm.appointment
         if ((doctor != null) && (appointment != null)) {
             new_appointment_doctor?.text = "Dr. " + doctor.first_name + " " + doctor.last_name
-            var displayDate = ""
             try {
-                displayDate = displayDate(appointment.date!!)
+                new_appointment_date?.text = displayDate(appointment.date!!)
             } catch (t: Throwable) {
 
             }
-            new_appointment_date?.text = displayDate
             new_appointment_time?.text = appointment.start_time
             new_appointment_address?.text = doctor.address
             new_appointment_confirm?.setOnClickListener {
@@ -96,6 +95,7 @@ class NewAppointmentFragment : Fragment() {
                                 )
                                 RoomService.appDatabase.getDoctorDao().addMyDoctor(doctor)
                                 Toast.makeText(act, R.string.booking_success, Toast.LENGTH_LONG).show()
+                                vm.appointCurr = 0
                                 navController(act).navigate(R.id.action_newAppointmentFragment_to_appointmentsFragment)
                             } else {
                                 checkFailure(act, null)
@@ -122,8 +122,8 @@ class NewAppointmentFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             act.window.statusBarColor = ContextCompat.getColor(act, R.color.medicana)
         }

@@ -47,43 +47,53 @@ class AuthFragment : Fragment() {
         auth_toolbar?.title = ""
 
         auth_login_button?.setOnClickListener {
-            val phone = auth_phone.text.toString()
-            auth_phone.text.clear()
-            val password = auth_password.text.toString()
-            auth_password.text.clear()
-            val call = RetrofitService.endpoint.authPatient(phone, password)
-            call.enqueue(object : Callback<Patient> {
-                override fun onResponse(
-                        call: Call<Patient>?,
-                        response: Response<Patient>?
-                ) {
-                    if (response?.isSuccessful == true) {
-                        val patient = response.body()
-                        if (patient?.patient_id != null) {
-                            val prefs = SharedPrefs(act)
-                            prefs.connected = true
-                            prefs.patientId = patient.patient_id
-                            prefs.phoneNumber = patient.phone_number
-                            prefs.firstName = patient.first_name
-                            prefs.lastName = patient.last_name
-                            reloadRoomDatabase(patient.patient_id)
-                            registerToken(patient.patient_id)
-                            subscribeToTreatments(patient.patient_id)
-                            subscribeToAdvice(patient.patient_id)
-                            Toast.makeText(act, R.string.welcome, Toast.LENGTH_LONG).show()
-                            navController(act).navigateUp()
+            if ((auth_phone?.text?.isNotEmpty() == true) && (auth_password?.text?.isNotEmpty() == true)) {
+                val phone = auth_phone.text.toString()
+                auth_phone.isEnabled = false
+                val password = auth_password.text.toString()
+                auth_password.isEnabled = false
+                val call = RetrofitService.endpoint.authPatient(phone, password)
+                call.enqueue(object : Callback<Patient> {
+                    override fun onResponse(
+                            call: Call<Patient>?,
+                            response: Response<Patient>?
+                    ) {
+                        if (response?.isSuccessful == true) {
+                            val patient = response.body()
+                            if (patient?.patient_id != null) {
+                                val prefs = SharedPrefs(act)
+                                prefs.connected = true
+                                prefs.patientId = patient.patient_id
+                                prefs.phoneNumber = patient.phone_number
+                                prefs.firstName = patient.first_name
+                                prefs.lastName = patient.last_name
+                                reloadRoomDatabase(patient.patient_id)
+                                registerToken(patient.patient_id)
+                                subscribeToTreatments(patient.patient_id)
+                                subscribeToAdvice(patient.patient_id)
+                                Toast.makeText(act, R.string.welcome, Toast.LENGTH_LONG).show()
+                                navController(act).navigateUp()
+                            } else {
+                                Toast.makeText(act, R.string.login_error, Toast.LENGTH_LONG).show()
+                                auth_phone.isEnabled = true
+                                auth_password.isEnabled = true
+                            }
                         } else {
-                            Toast.makeText(act, R.string.login_error, Toast.LENGTH_LONG).show()
+                            checkFailure(act, null)
+                            auth_phone.isEnabled = true
+                            auth_password.isEnabled = true
                         }
-                    } else {
-                        checkFailure(act, null)
                     }
-                }
 
-                override fun onFailure(call: Call<Patient>?, t: Throwable?) {
-                    checkFailure(act, t)
-                }
-            })
+                    override fun onFailure(call: Call<Patient>?, t: Throwable?) {
+                        checkFailure(act, t)
+                        auth_phone.isEnabled = true
+                        auth_password.isEnabled = true
+                    }
+                })
+            } else {
+                Toast.makeText(act, R.string.missing_phone_pass, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -119,10 +129,18 @@ class AuthFragment : Fragment() {
                                                         response: Response<List<Treatment>>?
                                                 ) {
                                                     if (response?.isSuccessful == true) {
-                                                        RoomService.appDatabase.getAppointmentDao().addMyAppointments(appointments)
-                                                        RoomService.appDatabase.getDoctorDao().addMyDoctors(doctors)
-                                                        RoomService.appDatabase.getAdviceDao().addMyAdvice(advice)
-                                                        RoomService.appDatabase.getTreatmentDao().addMyTreatments(response.body())
+                                                        try {
+                                                            RoomService.appDatabase.getAppointmentDao().addMyAppointments(appointments)
+                                                            RoomService.appDatabase.getDoctorDao().addMyDoctors(doctors)
+                                                            RoomService.appDatabase.getAdviceDao().addMyAdvice(advice)
+                                                            RoomService.appDatabase.getTreatmentDao().addMyTreatments(response.body())
+                                                        } catch (t: Throwable) {
+                                                            Toast.makeText(
+                                                                    act,
+                                                                    R.string.db_error,
+                                                                    Toast.LENGTH_LONG
+                                                            ).show()
+                                                        }
                                                     } else {
                                                         checkFailure(act, null)
                                                     }

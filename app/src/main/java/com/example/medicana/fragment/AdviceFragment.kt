@@ -20,6 +20,7 @@ import com.example.medicana.prefs.SharedPrefs
 import com.example.medicana.retrofit.RetrofitService
 import com.example.medicana.room.RoomService
 import com.example.medicana.service.AdviceAddSyncService
+import com.example.medicana.service.AdviceUpdateSyncService
 import com.example.medicana.util.BASE_URL
 import com.example.medicana.util.checkFailure
 import com.example.medicana.util.navController
@@ -70,6 +71,7 @@ class AdviceFragment : Fragment() {
             stackFromEnd = true
             reverseLayout = false
         }
+        advice_list?.adapter = AdviceAdapter(act, RoomService.appDatabase.getAdviceDao().getAdviceWithDoctor(doctor?.doctor_id))
         reload(false)
         Handler(Looper.getMainLooper()).postDelayed({
             reload(true)
@@ -86,17 +88,17 @@ class AdviceFragment : Fragment() {
                         message = message,
                     )
                 )
-                scheduleSync()
-                reload(false)
+                advice_list?.adapter = AdviceAdapter(act, RoomService.appDatabase.getAdviceDao().getAdviceWithDoctor(doctor?.doctor_id))
+                scheduleSyncAdd()
             }
         }
+
+        RoomService.appDatabase.getAdviceDao().updateSeenAdvice(doctor?.doctor_id)
+        scheduleSyncUpdate()
     }
 
     private fun reload(withState: Boolean) {
         val doctor = vm.doctor
-        val recyclerViewState1 = advice_list?.layoutManager?.onSaveInstanceState()
-        advice_list?.adapter = AdviceAdapter(act, RoomService.appDatabase.getAdviceDao().getAdviceWithDoctor(doctor?.doctor_id))
-        if (withState) advice_list?.layoutManager?.onRestoreInstanceState(recyclerViewState1)
 
         val call = RetrofitService.endpoint.getAdviceWithDoctor(doctor?.doctor_id, SharedPrefs(act).patientId)
         call.enqueue(object : Callback<List<Advice>> {
@@ -105,12 +107,17 @@ class AdviceFragment : Fragment() {
                 response: Response<List<Advice>>?
             ) {
                 if (response?.isSuccessful == true) {
+                    RoomService.appDatabase.getAdviceDao().deleteAdviceWithDoctor(doctor?.doctor_id)
                     RoomService.appDatabase.getAdviceDao().addMyAdvice(response.body())
                     val recyclerViewState2 = advice_list?.layoutManager?.onSaveInstanceState()
                     val advice = RoomService.appDatabase.getAdviceDao().getAdviceWithDoctor(doctor?.doctor_id)
                     val oldCount = advice_list?.adapter?.itemCount
                     advice_list?.adapter = AdviceAdapter(act, advice)
-                    if (withState || advice.size <= oldCount!!) advice_list?.layoutManager?.onRestoreInstanceState(recyclerViewState2)
+                    try {
+                        if (withState || advice.size <= oldCount!!) advice_list?.layoutManager?.onRestoreInstanceState(recyclerViewState2)
+                    } catch (t: Throwable) {
+
+                    }
                 } else {
                     checkFailure(act, null)
                 }
@@ -122,12 +129,21 @@ class AdviceFragment : Fragment() {
         })
     }
 
-    private fun scheduleSync() {
+    private fun scheduleSyncAdd() {
         val constraints = Constraints.Builder().
         setRequiredNetworkType(NetworkType.CONNECTED).build()
         val req= OneTimeWorkRequest.Builder(AdviceAddSyncService::class.java).
         setConstraints(constraints).addTag("patient_advice_add_constraints").build()
         val workManager = WorkManager.getInstance(act)
         workManager.enqueueUniqueWork("patient_advice_add_work", ExistingWorkPolicy.REPLACE, req)
+    }
+
+    private fun scheduleSyncUpdate() {
+        val constraints = Constraints.Builder().
+        setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val req= OneTimeWorkRequest.Builder(AdviceUpdateSyncService::class.java).
+        setConstraints(constraints).addTag("patient_advice_update_constraints").build()
+        val workManager = WorkManager.getInstance(act)
+        workManager.enqueueUniqueWork("patient_advice_update_work", ExistingWorkPolicy.REPLACE,req)
     }
 }

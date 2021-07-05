@@ -9,9 +9,6 @@ interface DoctorDao {
     @Query("SELECT * FROM doctor")
     fun getMyDoctors(): List<Doctor>
 
-    @Query("SELECT * FROM doctor WHERE doctor_id = :doctor_id")
-    fun getMyDoctor(doctor_id: Long?): Doctor
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addMyDoctor(doctor: Doctor?)
 
